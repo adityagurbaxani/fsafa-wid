@@ -16125,7 +16125,6 @@ class="
 <span class="n">outliers_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">'Age'</span><span class="p">]</span><span class="o">&lt;</span><span class="mf">1.4</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
 <span class="n">outliers_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">'ROA'</span><span class="p">]</span><span class="o">&lt;-</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
 <span class="n">outliers_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">'Leverage'</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
-<span class="n">outliers_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">'Leverage'</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
 <span class="c1">#Removing duplicate entries to avoid errors</span>
 <span class="n">outliers</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">r</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">outliers_list</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">l</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">outliers</span><span class="p">))</span>
@@ -17059,7 +17058,7 @@ class="
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>&lt;seaborn.axisgrid.PairGrid at 0x7fcafc4d8ca0&gt;</pre>
+<pre>&lt;seaborn.axisgrid.PairGrid at 0x7fbcdd3b0a30&gt;</pre>
 </div>
 
 </div>
@@ -17132,10 +17131,10 @@ class="
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   26.38</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Sat, 24 Dec 2022</td> <th>  Prob (F-statistic):</th> <td>1.24e-42</td>
+  <th>Date:</th>             <td>Sun, 25 Dec 2022</td> <th>  Prob (F-statistic):</th> <td>1.24e-42</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>07:24:14</td>     <th>  Log-Likelihood:    </th> <td>  1564.1</td>
+  <th>Time:</th>                 <td>11:23:52</td>     <th>  Log-Likelihood:    </th> <td>  1564.1</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  1531</td>      <th>  AIC:               </th> <td>  -3108.</td>
@@ -17220,6 +17219,78 @@ class="
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h4 id="Testing-for-Heteroskedasticity-using-Breusch-Pagan-Test">Testing for Heteroskedasticity using Breusch-Pagan Test<a class="anchor-link" href="#Testing-for-Heteroskedasticity-using-Breusch-Pagan-Test">&#182;</a></h4>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[23]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">statsmodels.stats.api</span> <span class="k">as</span> <span class="nn">sms</span>
+<span class="kn">from</span> <span class="nn">statsmodels.compat</span> <span class="kn">import</span> <span class="n">lzip</span>
+
+<span class="n">bptest_result</span> <span class="o">=</span> <span class="n">sms</span><span class="o">.</span><span class="n">het_breuschpagan</span><span class="p">(</span><span class="n">wid_res</span><span class="o">.</span><span class="n">resid</span><span class="p">,</span> <span class="n">wid_res</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exog</span><span class="p">)</span>
+<span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Lagrange multiplier statistic'</span><span class="p">,</span> <span class="s1">'p-value'</span><span class="p">,</span> <span class="s1">'f-value'</span><span class="p">,</span> <span class="s1">'f p-value'</span><span class="p">]</span>
+<span class="n">lzip</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">bptest_result</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[23]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>[(&#39;Lagrange multiplier statistic&#39;, 27.700673535164448),
+ (&#39;p-value&#39;, 0.0035970214192389046),
+ (&#39;f-value&#39;, 3.1140929454492787),
+ (&#39;f p-value&#39;, 0.0010161298991427767)]</pre>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>p-value &lt; 0.05, indicates prescence of heteroskedasticity</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h4 id="Save-results-to-separate-Dataframe">Save results to separate Dataframe<a class="anchor-link" href="#Save-results-to-separate-Dataframe">&#182;</a></h4>
 </div>
 </div>
@@ -17229,7 +17300,7 @@ class="
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[23]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[24]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
@@ -17249,7 +17320,7 @@ class="
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[24]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[25]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#print(wid_res.summary().as_csv())</span>
@@ -17279,7 +17350,7 @@ class="
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[24]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[25]:</div>
 
 
 
@@ -17459,7 +17530,7 @@ class="
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[25]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[26]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">beta</span> <span class="o">=</span> <span class="n">coef</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
@@ -17481,7 +17552,7 @@ class="
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[25]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[26]:</div>
 
 
 
@@ -17523,7 +17594,7 @@ class="
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[26]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[27]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Dataframe to store the values</span>
@@ -17543,7 +17614,7 @@ class="
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[27]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[28]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">did_matrix</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">did_matrix</span><span class="p">)]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">'WID'</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'FE'</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'POST'</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">)]</span><span class="o">.</span><span class="n">EM</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
@@ -17580,7 +17651,7 @@ class="
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[27]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[28]:</div>
 
 
 
